@@ -1,0 +1,296 @@
+/* ==========================================================================
+   tokens.css — THE DESIGN SYSTEM
+   ==========================================================================
+
+   Every colour, spacing step, font size, radius, weight and duration used
+   anywhere in the application is defined here as a CSS custom property.
+   No other stylesheet, and no component, contains a raw hex colour or a
+   magic pixel value. Restyling the whole application means editing this
+   file and nothing else.
+
+   Structure
+   ---------
+     1. Typography      font stacks and the size scale
+     2. Spacing         a 4px-based scale
+     3. Sizing          fixed dimensions of shell regions
+     4. Radii, borders, shadows, motion
+     5. Colour — light theme (default)
+     6. Colour — dark theme (overrides only the colour tokens)
+
+   Design intent
+   -------------
+   The visual reference is laboratory instrument software (a LIMS, an
+   oscilloscope console), not a marketing site. That means:
+     - hairline borders separate regions; shadows are almost never used
+     - near-sharp corners
+     - dense information: small body text, tight rows, uppercase micro-labels
+     - monospace for every identifier, checksum, timestamp and measurement
+     - warm neutral greys with one cool accent
+     - traces are amber vs teal, never red vs green, so the most common
+       colour-vision deficiencies can still separate them
+
+   To swap in a branded typeface (e.g. IBM Plex), add a @font-face or a
+   <link> in index.html and replace the two font stacks below. Nothing else
+   needs to change.
+   ========================================================================== */
+
+:root {
+  /* ---------------------------------------------------------------------
+     1. Typography
+     --------------------------------------------------------------------- */
+
+  /* UI text. System stack — no network fetch, identical offline. */
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+               Arial, sans-serif;
+
+  /* Data text: IDs, checksums, timestamps, numbers, code. */
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas,
+               "Liberation Mono", monospace;
+
+  /* Size scale. Body is 13px; the app is meant to be dense. */
+  --text-xs:   11px;   /* micro-labels, table captions, status strip     */
+  --text-sm:   12px;   /* table cells, secondary text                    */
+  --text-md:   13px;   /* body, form controls                            */
+  --text-lg:   15px;   /* panel titles                                   */
+  --text-xl:   18px;   /* page titles                                    */
+  --text-2xl:  24px;   /* large numeric readouts on the overview         */
+
+  --leading-tight:  1.25;
+  --leading-normal: 1.45;
+
+  --weight-normal:   400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+
+  /* Uppercase micro-labels get extra tracking so they stay legible. */
+  --tracking-label: 0.08em;
+
+  /* ---------------------------------------------------------------------
+     2. Spacing — 4px base
+     --------------------------------------------------------------------- */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  /* ---------------------------------------------------------------------
+     3. Sizing — fixed dimensions of the application shell
+     --------------------------------------------------------------------- */
+  --sidebar-width:     228px;
+  --topbar-height:     48px;
+  --statusbar-height:  24px;
+  --row-height:        30px;   /* data table rows                        */
+  --control-height:    28px;   /* buttons, inputs, selects               */
+  --content-max-width: 1600px;
+
+  /* ---------------------------------------------------------------------
+     4. Radii, borders, shadows, motion
+     --------------------------------------------------------------------- */
+  --radius-sm: 2px;
+  --radius-md: 3px;
+  /* There is deliberately no larger radius. */
+
+  --border-width: 1px;
+
+  /* The ONLY shadow token. Reserved for overlay menus and popovers. */
+  --shadow-overlay: 0 2px 8px rgba(0, 0, 0, 0.18);
+
+  --duration-fast: 80ms;
+  --duration-base: 140ms;
+  --easing: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Focus ring — never removed, only restyled. */
+  --focus-ring: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-accent);
+
+  /* ---------------------------------------------------------------------
+     5. Colour — LIGHT theme (default)
+     ---------------------------------------------------------------------
+     Naming: bg = surfaces, fg = text/icons, border = rules.
+     Numbered suffixes go from the base surface (0) outward.
+     --------------------------------------------------------------------- */
+
+  /* Surfaces: warm paper-toned neutrals. */
+  --color-bg:          #f5f4f0;   /* page background                        */
+  --color-bg-panel:    #fbfaf7;   /* panels, cards, table bodies            */
+  --color-bg-inset:    #eeece6;   /* table headers, inset regions, code     */
+  --color-bg-sidebar:  #ebe9e3;   /* left rail                              */
+  --color-bg-hover:    #e6e3db;   /* row / nav hover                        */
+  --color-bg-selected: #d9e6e4;   /* selected row / active nav (accent tint)*/
+
+  /* Text. */
+  --color-fg:          #1d1c1a;   /* primary text                           */
+  --color-fg-muted:    #5c5a55;   /* secondary text, labels                 */
+  --color-fg-subtle:   #8a8780;   /* placeholders, disabled, tertiary       */
+  --color-fg-inverse:  #f5f4f0;   /* text on accent / dark surfaces         */
+
+  /* Rules. */
+  --color-border:        #d3d0c8; /* default hairline                       */
+  --color-border-strong: #aeaaa0; /* emphasised rules (table header bottom) */
+
+  /* Accent: deep desaturated teal. Selection, links, primary buttons. */
+  --color-accent:        #17605c;
+  --color-accent-hover:  #124d4a;
+  --color-accent-subtle: #d9e6e4; /* tinted background for accent contexts  */
+
+  /* Semantic trio for acceptance-gate state. Each has fg (text/border)
+     and bg (tinted fill). Text labels ALWAYS accompany the colour. */
+  --color-pass-fg: #2e6b3a;
+  --color-pass-bg: #dcebdd;
+  --color-warn-fg: #8a5a12;
+  --color-warn-bg: #f4e7c8;
+  --color-fail-fg: #9a2f2f;
+  --color-fail-bg: #f2d9d7;
+
+  /* Neutral / informational state (queued, pending, n/a). */
+  --color-neutral-fg: #5c5a55;
+  --color-neutral-bg: #e6e3db;
+
+  /* Chart traces. Amber vs teal — safe for deuteranopia / protanopia. */
+  --color-trace-commanded: #b8791f;  /* what the generator was told to emit */
+  --color-trace-measured:  #17605c;  /* what the oscilloscope actually saw  */
+  --color-trace-residual:  #9a2f2f;  /* difference strip                    */
+  --color-trace-secondary: #6a6e8a;  /* third series when needed (pH etc.)  */
+  --color-chart-grid:      #dedbd3;
+  --color-chart-axis:      #aeaaa0;
+  --color-chart-band:      rgba(184, 121, 31, 0.14); /* threshold band fill */
+
+  /* Plate-map cell fills, ordered low → high signal. Sequential, one hue. */
+  --color-plate-0: #eeece6;
+  --color-plate-1: #cfe0dd;
+  --color-plate-2: #a3c6c1;
+  --color-plate-3: #6fa39d;
+  --color-plate-4: #3d7f7a;
+  --color-plate-5: #17605c;
+  --color-plate-excluded: #e6e3db;
+  --color-plate-sham:     #f4e7c8;
+
+  /* Emphasis surfaces used in banners (custody notice, disclaimers). */
+  --color-notice-bg:     #f4e7c8;
+  --color-notice-border: #d9b86a;
+  --color-info-bg:       #e2e6ee;
+  --color-info-border:   #aab3c9;
+}
+
+/* ---------------------------------------------------------------------
+   6. Colour — DARK theme
+   ---------------------------------------------------------------------
+   Applied when the user has not chosen a theme and the OS prefers dark,
+   OR when the app explicitly sets data-theme="dark". Only colour tokens
+   change; every layout token above is shared.
+   --------------------------------------------------------------------- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-bg:          #1b1b19;
+    --color-bg-panel:    #232320;
+    --color-bg-inset:    #2b2b27;
+    --color-bg-sidebar:  #1f1f1c;
+    --color-bg-hover:    #2f2f2a;
+    --color-bg-selected: #223532;
+
+    --color-fg:          #e8e6e0;
+    --color-fg-muted:    #a8a59d;
+    --color-fg-subtle:   #7a776f;
+    --color-fg-inverse:  #1b1b19;
+
+    --color-border:        #3a3a35;
+    --color-border-strong: #55554e;
+
+    --color-accent:        #4fa39d;
+    --color-accent-hover:  #6bb8b2;
+    --color-accent-subtle: #223532;
+
+    --color-pass-fg: #8ccb96;
+    --color-pass-bg: #1f3324;
+    --color-warn-fg: #e0b25a;
+    --color-warn-bg: #3a2f14;
+    --color-fail-fg: #e08a8a;
+    --color-fail-bg: #3d1f1f;
+
+    --color-neutral-fg: #a8a59d;
+    --color-neutral-bg: #2f2f2a;
+
+    --color-trace-commanded: #d9a04a;
+    --color-trace-measured:  #5fb8b1;
+    --color-trace-residual:  #e08a8a;
+    --color-trace-secondary: #9aa0c4;
+    --color-chart-grid:      #33332f;
+    --color-chart-axis:      #55554e;
+    --color-chart-band:      rgba(217, 160, 74, 0.16);
+
+    --color-plate-0: #2b2b27;
+    --color-plate-1: #29403d;
+    --color-plate-2: #2f5955;
+    --color-plate-3: #37736e;
+    --color-plate-4: #438d87;
+    --color-plate-5: #5fb8b1;
+    --color-plate-excluded: #2f2f2a;
+    --color-plate-sham:     #3a2f14;
+
+    --color-notice-bg:     #3a2f14;
+    --color-notice-border: #7a6229;
+    --color-info-bg:       #232a38;
+    --color-info-border:   #3f4a66;
+
+    --shadow-overlay: 0 2px 10px rgba(0, 0, 0, 0.5);
+  }
+}
+
+:root[data-theme="dark"] {
+  --color-bg:          #1b1b19;
+  --color-bg-panel:    #232320;
+  --color-bg-inset:    #2b2b27;
+  --color-bg-sidebar:  #1f1f1c;
+  --color-bg-hover:    #2f2f2a;
+  --color-bg-selected: #223532;
+
+  --color-fg:          #e8e6e0;
+  --color-fg-muted:    #a8a59d;
+  --color-fg-subtle:   #7a776f;
+  --color-fg-inverse:  #1b1b19;
+
+  --color-border:        #3a3a35;
+  --color-border-strong: #55554e;
+
+  --color-accent:        #4fa39d;
+  --color-accent-hover:  #6bb8b2;
+  --color-accent-subtle: #223532;
+
+  --color-pass-fg: #8ccb96;
+  --color-pass-bg: #1f3324;
+  --color-warn-fg: #e0b25a;
+  --color-warn-bg: #3a2f14;
+  --color-fail-fg: #e08a8a;
+  --color-fail-bg: #3d1f1f;
+
+  --color-neutral-fg: #a8a59d;
+  --color-neutral-bg: #2f2f2a;
+
+  --color-trace-commanded: #d9a04a;
+  --color-trace-measured:  #5fb8b1;
+  --color-trace-residual:  #e08a8a;
+  --color-trace-secondary: #9aa0c4;
+  --color-chart-grid:      #33332f;
+  --color-chart-axis:      #55554e;
+  --color-chart-band:      rgba(217, 160, 74, 0.16);
+
+  --color-plate-0: #2b2b27;
+  --color-plate-1: #29403d;
+  --color-plate-2: #2f5955;
+  --color-plate-3: #37736e;
+  --color-plate-4: #438d87;
+  --color-plate-5: #5fb8b1;
+  --color-plate-excluded: #2f2f2a;
+  --color-plate-sham:     #3a2f14;
+
+  --color-notice-bg:     #3a2f14;
+  --color-notice-border: #7a6229;
+  --color-info-bg:       #232a38;
+  --color-info-border:   #3f4a66;
+
+  --shadow-overlay: 0 2px 10px rgba(0, 0, 0, 0.5);
+}

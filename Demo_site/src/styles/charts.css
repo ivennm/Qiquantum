@@ -1,0 +1,101 @@
+/* ==========================================================================
+   charts.css — styling for the hand-written SVG charts
+   ==========================================================================
+   Charts live in src/components/charts/. They draw geometry only; every
+   stroke and fill colour is a class that resolves to a token here, so the
+   charts follow the theme automatically.
+   ========================================================================== */
+
+.chart {
+  display: block;
+  width: 100%;
+  height: auto;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+}
+.chart-frame {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+.chart-caption {
+  font-size: var(--text-xs);
+  color: var(--color-fg-muted);
+  line-height: 1.4;
+}
+
+/* Axes and grid */
+.chart-grid   { stroke: var(--color-chart-grid); stroke-width: 1; }
+.chart-axis   { stroke: var(--color-chart-axis); stroke-width: 1; }
+.chart-tick   { fill: var(--color-fg-muted); }
+.chart-label  { fill: var(--color-fg-muted); font-size: 10px; }
+
+/* Series */
+.trace {
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+.trace.is-commanded { stroke: var(--color-trace-commanded); }
+.trace.is-measured  { stroke: var(--color-trace-measured); }
+.trace.is-residual  { stroke: var(--color-trace-residual); stroke-width: 1; }
+.trace.is-secondary { stroke: var(--color-trace-secondary); }
+.trace.is-dashed    { stroke-dasharray: 3 3; }
+
+/* Threshold band and limit lines */
+.chart-band  { fill: var(--color-chart-band); }
+.chart-limit { stroke: var(--color-warn-fg); stroke-width: 1; stroke-dasharray: 4 3; }
+.chart-limit-label { fill: var(--color-warn-fg); font-size: 9px; }
+.chart-zero  { stroke: var(--color-chart-axis); stroke-width: 1; }
+
+/* Markers */
+.chart-marker { fill: var(--color-fail-fg); }
+.chart-marker.is-warn { fill: var(--color-warn-fg); }
+
+/* --------------------------------------------------------------------------
+   RunTimeline — horizontal stream lanes with segments and offset markers.
+   -------------------------------------------------------------------------- */
+.timeline-lane-label { fill: var(--color-fg); font-family: var(--font-sans); font-size: 11px; }
+.timeline-lane-rule  { stroke: var(--color-border); }
+.timeline-seg        { fill: var(--color-accent); opacity: 0.85; }
+.timeline-seg.is-gap { fill: var(--color-fail-bg); stroke: var(--color-fail-fg); stroke-dasharray: 2 2; }
+.timeline-seg.is-secondary { fill: var(--color-trace-secondary); }
+.timeline-seg.is-commanded { fill: var(--color-trace-commanded); }
+.timeline-offset     { stroke: var(--color-fail-fg); stroke-width: 1; }
+.timeline-offset-label { fill: var(--color-fail-fg); font-size: 9px; }
+.timeline-cursor     { stroke: var(--color-fg); stroke-width: 1; stroke-dasharray: 2 2; }
+
+/* --------------------------------------------------------------------------
+   PlateMap — 96-well grid.
+   -------------------------------------------------------------------------- */
+.plate-well {
+  stroke: var(--color-border-strong);
+  stroke-width: 0.75;
+}
+.plate-well.is-0 { fill: var(--color-plate-0); }
+.plate-well.is-1 { fill: var(--color-plate-1); }
+.plate-well.is-2 { fill: var(--color-plate-2); }
+.plate-well.is-3 { fill: var(--color-plate-3); }
+.plate-well.is-4 { fill: var(--color-plate-4); }
+.plate-well.is-5 { fill: var(--color-plate-5); }
+.plate-well.is-sham     { fill: var(--color-plate-sham); }
+.plate-well.is-excluded { fill: var(--color-plate-excluded); stroke: var(--color-fail-fg); stroke-dasharray: 1.5 1.5; }
+.plate-well.is-empty    { fill: none; stroke-dasharray: 1.5 1.5; }
+.plate-well.is-selected { stroke: var(--color-accent); stroke-width: 2; }
+.plate-label { fill: var(--color-fg-muted); font-size: 9px; }
+.plate-excluded-mark { stroke: var(--color-fail-fg); stroke-width: 1; }
+
+/* --------------------------------------------------------------------------
+   Sparkline — tiny inline trend used in tables.
+   -------------------------------------------------------------------------- */
+.sparkline {
+  display: inline-block;
+  vertical-align: middle;
+  width: 72px;
+  height: 18px;
+}
+.sparkline .trace { stroke-width: 1; }
