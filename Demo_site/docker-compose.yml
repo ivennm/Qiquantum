@@ -1,0 +1,22 @@
+# docker compose up  →  http://localhost:5173
+#
+# Runs the Vite dev server inside a container with the source directory
+# bind-mounted so edits on the host hot-reload in the browser. node_modules
+# is kept in an anonymous volume so the container's Linux build of the
+# dependencies is not shadowed by a host directory.
+#
+# NOT verified on the authoring machine (Docker was not installed there).
+services:
+  web:
+    build:
+      context: .
+      target: dev
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      # Polling is needed for file watching across some bind-mount setups
+      # (Docker Desktop on macOS/Windows). Harmless on Linux.
+      - CHOKIDAR_USEPOLLING=true
